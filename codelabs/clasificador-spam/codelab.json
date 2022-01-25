@@ -1,0 +1,40 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2022-01-25T10:21:16Z",
+  "id": "clasificador-spam",
+  "duration": 24,
+  "title": "Proyecto: Clasificador de Spam",
+  "authors": "Enrique Diaz",
+  "summary": "In this codelab, you'll build an installable, Progressive Web App, which loads quickly, even on flaky networks, and when launched looks like any other installed app. En este codelab, vamos a crear un clasificador de spam",
+  "source": "1AHVCVdqri3tnoZFP7WvO52OjLpCu8Mu4N7zLL0W-3EE",
+  "theme": "proyectos",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "proyectos"
+  ],
+  "tags": [
+    "cds17",
+    "chrome-dev-summit-2016",
+    "devfest18",
+    "gdd17",
+    "io2016",
+    "io2017",
+    "io2018",
+    "io2019",
+    "jsconfeu",
+    "kiosk",
+    "pwa-dev-summit",
+    "pwa-roadshow",
+    "tag-web",
+    "typtwd17",
+    "web"
+  ],
+  "feedback": "https://github.com/devfmx/hacklabs/clasificador-spam/issues",
+  "ga": "UA-52746336-1",
+  "url": "clasificador-spam"
+}
