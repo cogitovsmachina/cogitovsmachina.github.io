@@ -1,0 +1,31 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2022-04-21T22:56:13Z",
+  "id": "prediccion-de-precios-airbnb",
+  "duration": 26,
+  "title": "🐱‍💻 Proyecto de Deep Learning",
+  "authors": "Enrique Diaz",
+  "summary": "En este codelab, haremos un análisis extractivo de datos, para posteriormente aplicar técnicas de aprendizaje automático para la predicción de precios. El ejercicio concluye con un reto de diseño de pipelines de datos con Apache Airflow y creación del diseño de redes neuronales para la resolución del problema de predicción de precios.",
+  "source": "12ay8j_ItKlBmvIdXXnJjvcMeFcrpylTOgnTpZ_DguKM",
+  "theme": "deeplearning",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "deeplearning"
+  ],
+  "tags": [
+    "chrome-dev-summit-2016",
+    "io2016",
+    "io2017",
+    "pwa-dev-summit",
+    "pwa-roadshow",
+    "web"
+  ],
+  "feedback": "https://github.com/googlecodelabs/your-first-pwapp/issues",
+  "ga": "UA-52746336-1",
+  "url": "prediccion-de-precios-airbnb"
+}
