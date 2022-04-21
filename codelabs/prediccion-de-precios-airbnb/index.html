@@ -34,23 +34,25 @@
 <p>En el siguiente hacklab, vamos a utilizar un dataset previamente recolectado por la comunidad y haremos un análisis extractivo de datos, para posteriormente aplicar varias técnicas de aprendizaje automático para la predicción de precios. El ejercicio concluye con un reto de diseño de pipelines de datos con Apache Airflow y creación del diseño de redes neuronales para la resolución del problema de predicción de precios.</p>
 <h2 is-upgraded><strong>Acerca de lo que vas a construir</strong></h2>
 <p>En este hacklab, vamos a desarrollar un script en <strong>Python</strong> con la ayuda de <strong>Google Colaboratory</strong> para analizar los datos y luego usamos <strong>Plotly</strong> y <strong>Matplotlib</strong> para obtener mejores perspectivas de visualización de los datos  y así obtener mejores aprendizajes sobre el dataset.</p>
-<p class="image-container"><img style="width: 624.00px" src="img/fb06a295cd9fa503.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="img/47b6b05bd4717b55.png"></p>
+<p class="image-container"><img style="width: 585.50px" src="img/3ec82f2150ba2699.png"></p>
 <aside class="warning"><p><strong>Nota:</strong> Si no tienes experiencia utilizando alguna de las bibliotecas que hemos mencionado anteriormente, ¡no te preocupes! puedes consultar su documentación y familiarizarte con esas herramientas y técnicas de visualización de datos, en futuras sesiones serán de mucha utilidad.</p>
 </aside>
 <h2 is-upgraded><strong>Acerca de lo que aprenderás</strong></h2>
 <ul>
-<li>Cómo limpiar un dataset para su análisis</li>
-<li>Cómo utilizar Pandas y Matplotlib para analizar datos desde entidades visuales.</li>
-<li>Cómo utilizar Plotly para sacarle mayor ventaja a los datos.</li>
-<li>Aplicarás algunas técnicas de <strong>Machine Learning</strong> para la predicción de precios de rentas de Airbnb.</li>
-<li>Diseñarás una arquitectura de redes neuronales para la predicción de precios de renta de propiedades publicadas en Airbnb.</li>
+<li>Cómo <strong>limpiar</strong> un <strong>dataset</strong> para su <strong>análisis</strong> usando <strong>Pandas</strong>.</li>
+<li>Cómo utilizar los métodos de visualización de las bibliotecas <strong>Pandas</strong> y <strong>Matplotlib</strong> para analizar datos desde diferentes perspectivas como agregaciones, filtros, etc.</li>
+<li>Cómo utilizar <strong>Plotly</strong> para sacarle mayor ventaja a los datos.</li>
+<li>Cómo aplicar algunas técnicas de <strong>Machine Learning</strong> para la predicción de precios de rentas de Airbnb.</li>
+<li>Cómo diseñar un pipeline de ingesta de data automatizada para la mejora del modelo.</li>
+<li>Cómo diseñar una arquitectura de redes neuronales para la predicción de precios de renta de propiedades publicadas en Airbnb.</li>
 </ul>
 <p>Este codelab está enfocado en Análisis de datos con Python y la aplicación de algunas técnicas de estadística aplicada, los conceptos que no sean relevantes se pasan por alto y se proporcionan para que simplemente se copie y pegue el código.</p>
 <h2 is-upgraded><strong>Acerca de lo que necesitas</strong></h2>
 <ul>
-<li>Una versión reciente de <a href="https://www.google.com/chrome" target="_blank">Google Chrome</a> o un navegador moderno.</li>
-<li>Una cuenta de correo electrónico de <a href="https://www.google.com/gmail/" target="_blank">Gmail</a>, para poder utilizar Google Colaboratory.</li>
-<li>Una cuenta de <a href="http://github.com/" target="_blank">Github</a>, para publicar tu resultados con más personas y posibles empleadores.</li>
+<li>Una versión reciente de <a href="https://www.google.com/chrome" target="_blank"><strong>Google Chrome</strong></a> o un navegador moderno.</li>
+<li>Una cuenta de correo electrónico de <a href="https://www.google.com/gmail/" target="_blank"><strong>Gmail</strong></a>, para poder utilizar <strong>Google Colaboratory</strong>.</li>
+<li>Una cuenta de <a href="http://github.com/" target="_blank"><strong>Github</strong></a>, para publicar tu resultados con más personas y posibles empleadores.</li>
 </ul>
 
 
@@ -58,109 +60,74 @@
     
       <google-codelab-step label="Leyendo y pre-procesando los datos" duration="2">
         <h2 is-upgraded><strong>Descargando el código fuente </strong></h2>
-<p>El código fuente de este ejercicio se ha tomado desde <a href="https://www.kaggle.com/parulpandey/who-earned-the-most-in-sports-in-2020" target="_blank"><strong>Kaggle</strong></a>, sin embargo una copia local está guardada en nuestra carpeta oficial en Google Drive. Puedes descargar el repositorio y el dataset usando el siguiente botón:</p>
-<p><a href="https://github.com/devfmx/master-data-ai/tree/main/Kata%20Proyectos" target="_blank"><paper-button class="colored" raised>Descarga el código fuente y dataset</paper-button></a></p>
+<p>El código fuente de este ejercicio se ha tomado desde <a href="https://www.kaggle.com/code/yashvi/airbnb-price-prediction/notebook" target="_blank"><strong>Kaggle</strong></a>, sin embargo una copia local está guardada en nuestra carpeta oficial en <a href="https://drive.google.com/drive/folders/1yG9Nd4LX9RNaR5WxOCIbD2PS92XC-tfW?usp=sharing" target="_blank"><strong>Google Drive</strong></a>. Puedes descargar el repositorio y el dataset usando el siguiente botón:</p>
+<p><a href="https://github.com/devfmx/master-data-ai/tree/main/6.%20Deep%20Learning" target="_blank"><paper-button class="colored" raised>Descarga el código fuente y dataset</paper-button></a></p>
 <h2 is-upgraded><strong>Importando y configurando nuestras dependencias </strong></h2>
 <p>Lo primero que haremos antes de manipular el dataset, es declarar las dependencias de nuestro proyecto de la siguiente manera:</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
-<pre><code>import numpy as np 
-import pandas as pd 
-from datetime import datetime
-
-
-import matplotlib.pyplot as plt
-%matplotlib inline
-import seaborn as sns
-sns.set()
-from plotly.offline import init_notebook_mode, iplot 
-import plotly.graph_objs as go
-import plotly.offline as py
-import pycountry
-import folium 
-from folium import plugins
-
-
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
+<pre><code>import pandas as pd
 import numpy as np
-from PIL import Image
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+from scipy.stats import norm
+from scipy import stats
+from sklearn import preprocessing
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 
-import matplotlib.ticker as ticker
-import matplotlib.animation as animation
-from IPython.display import HTML
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import ExtraTreesClassifier
 
-# Graphics in retina format 
-%config InlineBackend.figure_format = &#39;retina&#39; 
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import ElasticNet
 
-# Increase the default plot size and set the color scheme
-plt.rcParams[&#39;figure.figsize&#39;] = 8, 5
-
-
-# Disable warnings in Anaconda
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
-import os</code></pre>
+from sklearn import metrics
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_absolute_error
+from math import sqrt
+from sklearn.metrics import r2_score</code></pre>
 <aside class="special"><p><strong>Nota:</strong> El repositorio original de Kaggle contiene otras piezas de código para hacer funcionar el proyecto dentro de los Kernels de Kaggle, pero para efectos de estudio removimos esas líneas de código.</p>
 </aside>
-<p>Una vez que hemos importado y configurado dependencias como <strong>Matplotlib</strong> o <strong>Numpy</strong>, es momento de leer el dataset usando <strong>Pandas </strong>de la siguiente manera:</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
-<pre><code>df = pd.read_csv(&#39;/forbes-highest-paid-athletes-19902019/Forbes Richest Atheletes (Forbes Richest Athletes 1990-2020).csv&#39;)
-df.head()
+<p>Una vez que hemos importado y configurado dependencias como <strong>Matplotlib</strong> o <strong>Seaborn</strong>, es momento de leer el dataset usando <strong>Pandas </strong>de la siguiente manera:</p>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
+<pre><code>data=pd.read_csv(&#39;AB_NYC_2019.csv&#39;)
 </code></pre>
-<p>Después vamos a convertir la columna &#34;<strong>Year</strong>&#34; a un tipo de datos comprensible por Python como <strong>datetime</strong>.</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
-<pre><code># Creating a copy of the original dataframe- df
-df1 = df.copy()
-df1.drop(&#39;S.NO&#39;,axis=1,inplace=True)
-df1.info()
+<p>Luego vamos a ejecutar el método head para identificar las primeras 5 observaciones del dataset, en particular habrá que poner atención en los tipos de datos que contiene nuestro dataset:</p>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
+<pre><code>data.head()
+
 
 </code></pre>
-<p>La última instrucción, <strong>df1.info()</strong> nos imprime la siguiente información:</p>
-<p class="image-container"><img style="width: 365.00px" src="img/cb27cbb4ccb640e4.png"></p>
-<p>Finalmente debemos convertir el texto en la columna &#34;Sport&#34; en mayúsculas o minúsculas.</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
-<pre><code># Convert string to datetime64
-df1[&#39;Year&#39;] = df1[&#39;Year&#39;].apply(pd.to_datetime,format=&#39;%Y&#39;)
-
-#Set Date column as the index column.
-df1[&#39;year&#39;] = pd.DatetimeIndex(df1[&#39;Year&#39;]).year  
-df1.set_index(&#39;year&#39;, inplace=True)
-df1.drop(&#39;Year&#39;,axis=1,inplace=True)
-
-# Converting the sport column to uppercase
-df1[&#39;Sport&#39;] = df1[&#39;Sport&#39;].str.upper()
-df1.head()
-
-# df is the original dataframe while df1 is a copy where the Date has been set as an index column
+<p>La instrucción, <strong>data.head()</strong> nos imprime la siguiente información:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/937757c3d2f1e326.png"></p>
+<p>También podemos aplicar estadística descriptiva utilizando el método describe(), y como parámetros del método iloc para mostrar una matriz informacional, le pasamos dos slices.</p>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
+<pre><code>data.iloc[:,3:].describe()
 </code></pre>
-<p>Luego de estas técnicas simples de pre-procesamiento, estamos listas/os para hacer filtros, colapsar columnas o agruparlas como veremos en la siguiente sección.</p>
+<p>Esto nos arroja un análisis de los valores numéricos que contiene el dataset de la siguiente manera:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/4b2229419d7ec9e0.png"></p>
+<p>Por último, vamos a comprender la dimensionalidad del dataset utilizando el comando <strong>shape</strong></p>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
+<pre><code>data.shape
+</code></pre>
+<p class="image-container"><img style="width: 190.00px" src="img/cf24dccb60d1402b.png"></p>
+<p>Ahora vamos a buscar valores nulos en el dataset que contiene <strong>48895 observaciones</strong>, con <strong>16 diferentes columnas</strong>.</p>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Predicción de precios en Airbnb" duration="2">
-        <p>Lo primero que haremos será crear el código para preguntar por los atletas mejores pagados del último año disponible, es decir, del 2020. Para eso usamos lo siguiente:</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
-<pre><code>data_2020 = df1[df1.index == 2020]
-
-trace = go.Bar(
-                    x = data_2020[&#34;earnings ($ million)&#34;],
-                    y = data_2020[&#39;Name&#39;] ,
-                    orientation=&#39;h&#39;,
-                    marker = dict(color=&#39;pink&#39;,
-                                 line=dict(color=&#39;black&#39;,width=1)),
-                    )
-data = [trace]
-layout = go.Layout(barmode = &#34;group&#34;,title=&#34;World&#39;s Highest-Paid Athletes in 2020&#34;,width=800, height=500, 
-                       #xaxis= dict(title=&#39;No of times ranked higest&#39;),
-                       yaxis=dict(autorange=&#34;reversed&#34;),
-                       showlegend=False)
-fig = go.Figure(data = data, layout = layout)
-iplot(fig)
-
-
-
+      <google-codelab-step label="Verificando valores nulos" duration="2">
+        <p>Una manera muy simple de verificar valores nulos, es a través de ejecutar dos métodos en cadena, primero preguntando por valores nulos, y luego haciendo una sumatoria de esos valores.</p>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
+<pre><code>data.isnull().sum()
 </code></pre>
-<p>Como lo podemos observar en la pieza de código, estamos utilizando la instancia de <strong>plotly.graph_objs</strong> para configurar la gráfica de barras, sus características y los datos que vamos a imprimir.</p>
+<p class="image-container"><img style="width: 487.00px" src="img/ee9f90ecd0ded539.png"></p>
 <p>La gráfica que nos arroja Plotly se puede ver de la siguiente manera:</p>
 <h2 is-upgraded><img style="width: 624.00px" src="img/d6e3cf0d5ecd0207.png"></h2>
 <aside class="special"><p><strong>Tip:</strong> Echa un vistazo a la documentación de Plotly para verificar cómo se puede implementar la biblioteca, en particular puedes observar la galería de gráficos para darte una mejor idea del poder de esta herramienta Open Source.</p>
@@ -171,7 +138,7 @@ iplot(fig)
     
       <google-codelab-step label="Análisis Exploratorio de Datos." duration="3">
         <p>Podemos usar una de las características de configuración de Pandas, el método <strong>background_gradient</strong> para imprimir el resultado de una consulta en nuestro dataset como se puede ver en la siguiente pieza de código:</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code># Top Paid Athlete for Each Year
 Top_paid_each_year = df1[df1[&#39;Current Rank&#39;] == 1].sort_values(by=&#39;year&#39;,ascending=False)
 
@@ -184,7 +151,7 @@ z.style.background_gradient(cmap=&#39;Reds&#39;)
 <aside class="warning"><p><strong>Precaución:</strong> La gráfica que mostramos anteriormente es sólo una muestra del gráfico completo, pero puedes correr el <a href="https://www.kaggle.com/parulpandey/who-earned-the-most-in-sports-in-2020" target="_blank">Kernel de Kaggle</a> y verificar los resultados por tu propia cuenta. </p>
 </aside>
 <h2 is-upgraded><strong>Atletas con mayor ingreso y máximo número de apariciones en la lista Forbes</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>counts_top = Top_paid_each_year[&#39;Name&#39;].value_counts().to_frame()
 
 
@@ -208,7 +175,7 @@ iplot(fig)
 <p>Y su correspondiente gráfica, utilizando los superpoderes de <strong>Plotly:</strong></p>
 <p class="image-container"><img style="width: 624.00px" src="img/840948f3c2bcdef2.png"></p>
 <p>Podemos producir gráficas más sofisticadas utilizando las siguientes piezas de código:</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code># Top Paid Athlete for Each Year
 total_earnings = Top_paid_each_year.groupby(&#39;Name&#39;)[&#39;earnings ($ million)&#39;].sum().to_frame().reset_index()
 top_ranks = Top_paid_each_year[&#39;Name&#39;].value_counts().to_frame().reset_index()
@@ -216,7 +183,7 @@ top_ranks.rename(columns={&#39;index&#39;:&#39;Name&#39;,
                           &#39;Name&#39;:&#39;Rank_counts&#39;}, inplace=True)
 df_compare = total_earnings.merge(top_ranks, on=&#39;Name&#39;)
 </code></pre>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>#source: https://www.kaggle.com/kanncaa1/plotly-tutorial-for-beginners#Bar-Charts
 
 import plotly.graph_objs as go
@@ -277,7 +244,7 @@ fig.show()
 <p>Produciendo las siguientes figuras:</p>
 <p class="image-container"><img style="width: 624.00px" src="img/eb2f9ebf49580391.png"></p>
 <h2 is-upgraded><strong>Pais que produce los máximos generadores de ingreso en deporte.</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>counts_top = Top_paid_each_year[&#39;Nationality&#39;].value_counts().to_frame()
 
 
@@ -298,7 +265,7 @@ iplot(fig)
 </code></pre>
 <p class="image-container"><img style="width: 624.00px" src="img/4b11e1cb76ee9519.png"></p>
 <h2 is-upgraded><strong>¿Cuánto ingresan los mejores atletas cada año?</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>trace = go.Scatter(
                     x = Top_paid_each_year.index,
                     y = Top_paid_each_year[&#39;earnings ($ million)&#39;] ,
@@ -321,7 +288,7 @@ iplot(fig)
     
       <google-codelab-step label="Modelo de Machine Learning." duration="3">
         <h2 is-upgraded><strong>¿Cuánto ingresan los mejores atletas cada año?</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>df[&#39;Sport&#39;] = df[&#39;Sport&#39;].str.upper() # Converting the text to uppercase
 max_sport = df[&#39;Sport&#39;].value_counts().to_frame()
 
@@ -343,7 +310,7 @@ iplot(fig)
 </code></pre>
 <p class="image-container"><img style="width: 624.00px" src="img/fcd27fb7b38ebfa2.png"></p>
 <h2 is-upgraded><strong>Pais que más ingresos tiene en deportes</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>max_sport = df[&#39;Nationality&#39;].value_counts().to_frame()
 
 
@@ -364,7 +331,7 @@ iplot(fig)
 </code></pre>
 <p class="image-container"><img style="width: 624.00px" src="img/71cc4a3d5a1035c0.png"></p>
 <h2 is-upgraded><strong>Atletas que aparecen más frecuentemente en la lista</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>s = df[&#39;Name&#39;].value_counts().to_frame()[:5]
 s.style.background_gradient(cmap=&#39;Reds&#39;)  
 </code></pre>
@@ -376,7 +343,7 @@ s.style.background_gradient(cmap=&#39;Reds&#39;)
       <google-codelab-step label="¿Dónde se encuentran las mujeres?" duration="9">
         <p class="image-container"><img style="width: 475.67px" src="img/b7ad64d50f8cb83.jpeg"></p>
 <p>Monica Seles es la única mujer que ha aparecido en la lista de los deportistas 10 mejores pagados hasta ahora, y lo hizo en 1992.</p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code># People who have appeared once on the list.
 names = df[&#39;Name&#39;].value_counts().to_frame()
 names[names[&#39;Name&#39;]==1].index
@@ -393,7 +360,7 @@ monica.style.set_properties(**{&#39;background-color&#39;: &#39;pink&#39;,
       </google-codelab-step>
     
       <google-codelab-step label="Analizando a los 3 mejores pagados de todos los tiempos." duration="5">
-        <h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+        <h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>top_earners_alltime = pd.pivot_table(df, index=&#39;Name&#39;,values=&#34;earnings ($ million)&#34;, aggfunc=&#39;sum&#39;)
 top3_earners_all = top_earners_alltime.sort_values(by=&#34;earnings ($ million)&#34;,ascending=False)[:3]
 
@@ -402,7 +369,7 @@ top3_earners_all.style.background_gradient(cmap=&#39;Reds&#39;)
 <p class="image-container"><img style="width: 318.00px" src="img/9d11daec1585f87b.png"></p>
 <h2 is-upgraded><strong>Analizando los ingresos de Tiger Woods a lo largo de los años</strong></h2>
 <p>Vamos a crear un método para únicamente pasarle parámetros y hacer más eficiente la escritura y lectura del código, acá vemos la definición del método <strong>earnings_plot.</strong></p>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>def earnings_plot(dataframe,athlete,image_path,opacity):
     &#34;&#34;&#34;
     function that creates a plotly line chart with image of the athlete in the background
@@ -438,19 +405,19 @@ top3_earners_all.style.background_gradient(cmap=&#39;Reds&#39;)
     fig = go.Figure(data = data, layout = layout)
     iplot(fig)
 </code></pre>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>image_path = &#34;/kaggle/input/profile-pics/tiger_woods.jpeg&#34;
 earnings_plot(df1,&#39;Tiger Woods&#39;,image_path,opacity=0.3)
 </code></pre>
 <p class="image-container"><img style="width: 624.00px" src="img/64cea780f9920274.png"></p>
 <h2 is-upgraded><strong>Analizando los ingresos de Floyd Mayweather a lo largo de los años</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>image_path = &#34;/kaggle/input/profile-pics/Floyd.jpeg&#34;
 earnings_plot(df1,&#39;Floyd Mayweather&#39;,image_path,opacity=0.2)
 </code></pre>
 <p class="image-container"><img style="width: 624.00px" src="img/66b9ebee8406b5c4.png"></p>
 <h2 is-upgraded><strong>Analizando los ingresos de Lebron James a lo largo de los años</strong></h2>
-<h3 is-upgraded><a href="https://github.com/googlecodelabs/your-first-pwapp/blob/master/public/index.html#L31" target="_blank">/who-earned-the-most-in-sports-2020.ipynb</a></h3>
+<h3 is-upgraded><a href="https://github.com/devfmx/master-data-ai/blob/main/6.%20Deep%20Learning/airbnb-price-prediction.ipynb" target="_blank">/airbnb-price-prediction.ipynb</a></h3>
 <pre><code>image_path = &#34;/kaggle/input/profile-pics/LeBron.jpeg&#34;
 earnings_plot(df1,&#39;LeBron James&#39;,image_path,opacity=0.2)
 </code></pre>
@@ -459,23 +426,22 @@ earnings_plot(df1,&#39;LeBron James&#39;,image_path,opacity=0.2)
 
       </google-codelab-step>
     
-      <google-codelab-step label="¡Es tu momento de brillar🚀!" duration="0">
-        <ul>
-<li>Deportistas cuyo ranking ha subido al menos dos lugares entre 2010 y 2020.</li>
-<li>Atleta con el menor número de apariciones y mayores ganancias. </li>
-<li>Deporte y país con mayor número de atletas no rankeados que entraron en la lista de atletas mejor pagados. </li>
-<li>País con mayor número de deportes con atletas en el dataset.</li>
-<li>¿Cuántos atletas por deporte tiene cada país? </li>
-<li>Ganancia mínima y máxima (dentro del dataset) por deporte y por país. </li>
-<li>Atleta con mayores ganancias por deporte por década</li>
-<li>Ganancia total por cada deporte por cada año. </li>
-<li>Crea un tablero en Power BI que represente los aspectos más importantes del dataset, a tu gusto.</li>
+      <google-codelab-step label="🚀 ¡Es tu momento de brillar!" duration="2">
+        <p>A continuación se describen algunos entregables incrementales y de diversos niveles de experiencia que puedes desarrollar para nutrir tu portafolio:</p>
+<ul>
+<li>Basado en el <a href="https://www.asimovinstitute.org/neural-network-zoo/" target="_blank">neural network zoo</a>, analiza, diseña y construye en Python la arquitectura de redes neuronales para dejar de depender de ingeniería de características como en los ejemplos vistos en clase.</li>
+<li>Basado en el <a href="https://github.com/tensorflow/community/blob/master/rfcs/yyyymmdd-rfc-template.md" target="_blank">RFC Open source de Tensorflow</a>, construye un documento que pueda describir brevemente lo siguiente:</li>
+</ul>
+<p>        El flujo de trabajo y de datos para crear 1 o 2 pipelines de Apache Airflow.</p>
+<p>        El diseño de la arquitectura de redes neuronales y los argumentos corroborables a través de evidencia detrás del mismo.</p>
+<ul>
+<li>Construye una Python Notebook donde re-diseñes el problema de predicción de precio, pero utilizando tu diseño de redes neuronales. Nota: Puedes usar la misma estructura mental de las libretas estudiadas, sin embargo las funciones de activación y de costo del camino tendrán que cambiar.</li>
 </ul>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Felicitaciones🎯" duration="0">
+      <google-codelab-step label="🎯 Felicitaciones" duration="0">
         <p>¡Felicitaciones! Has exitosamente construido tu primer análisis de datos utilizando Python.</p>
 <p>Aprendiste algunas técnicas estadísticas para colapsar, filtrar y agrupar distintas propiedades del dataset para responder preguntas relevantes, aprendimos a utilizar <strong>Matplotlib </strong>y<strong> Plotly.</strong></p>
 <p>Ahora conoces los pasos más significativos para analizar cualquier dataset que se te ponga en frente.</p>
@@ -496,6 +462,9 @@ earnings_plot(df1,&#39;LeBron James&#39;,image_path,opacity=0.2)
 </ul>
 <h2 is-upgraded><strong>Documentación de referencia</strong></h2>
 <ul>
+<li><a href="https://cogitovsmachina.github.io/codelabs/prediccion-de-precios-airbnb" target="_blank">WIP: Proyecto de Deep Learning @ Hacklabs</a></li>
+<li><a href="https://www.kaggle.com/code/duygut/airbnb-nyc-price-prediction" target="_blank">A nicer introduction to the airbnb NYC Price Prediction challenge</a></li>
+<li><a href="https://www.kaggle.com/code/duygut/airbnb-nyc-price-prediction" target="_blank">Airbnb NYC Price Prediction at Kaggle</a></li>
 <li><a href="https://www.kaggle.com/datasets/kritikseth/us-airbnb-open-data" target="_blank">U.S. Airbnb Open Data Dataset</a></li>
 <li><a href="https://wherebnb.herokuapp.com/" target="_blank">Wherebnb, a collection of tools for analysis of Airbnb opendata dataset</a></li>
 <li><a href="https://github.com/topics/airbnb-pricing-prediction" target="_blank">Repositorios de Github con el topico airbnb-price-prediction</a></li>
